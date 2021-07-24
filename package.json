@@ -1,0 +1,64 @@
+{
+  "name": "tussna-writers",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "@editorjs/code": "^2.7.0",
+    "@editorjs/header": "^2.6.1",
+    "@editorjs/list": "^1.6.2",
+    "camelize": "^1.0.0",
+    "chart.js": "^2.7.3",
+    "classnames": "^2.2.6",
+    "cross-env": "^5.2.0",
+    "dateformat": "^3.0.3",
+    "editorjs-text-alignment-blocktune": "^1.0.2",
+    "firebase": "^8.7.1",
+    "flux": "^3.1.3",
+    "formik": "^2.2.9",
+    "lodash.find": "^4.6.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-firebase-hooks": "^3.0.4",
+    "react-ga": "^2.5.6",
+    "react-quill": "^1.3.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "2.1.1",
+    "shards-react": "^1.0.0",
+    "shortid": "^2.2.14",
+    "yup": "^0.32.9"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@editorjs/checklist": "^1.3.0",
+    "@editorjs/delimiter": "^1.2.0",
+    "@editorjs/editorjs": "^2.22.1",
+    "@editorjs/embed": "^2.4.6",
+    "@editorjs/image": "^2.6.0",
+    "@editorjs/inline-code": "^1.3.1",
+    "@editorjs/link": "^2.3.1",
+    "@editorjs/marker": "^1.2.2",
+    "@editorjs/paragraph": "^2.8.0",
+    "@editorjs/quote": "^2.4.0",
+    "@editorjs/raw": "^2.3.0",
+    "@editorjs/simple-image": "^1.4.1",
+    "@editorjs/table": "^1.3.0",
+    "@types/react-router-dom": "^5.1.8",
+    "react-editor-js": "^1.10.0",
+    "simple-image-editorjs": "^1.4.0"
+  }
+}

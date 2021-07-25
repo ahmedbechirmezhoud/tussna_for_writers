@@ -1,6 +1,5 @@
-/* eslint jsx-a11y/anchor-is-valid: 0 */
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Card,
@@ -12,7 +11,9 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  FormSelect
+  FormSelect,
+  FormInput,
+  Tooltip
 } from "shards-react";
 
 import { ArticleContext } from '../../Contexts/articleContext';
@@ -22,7 +23,19 @@ const SidebarActions = ({ title }) => {
 
   const { state, dispatch, saveArticle, changed } = useContext(ArticleContext)
 
-  
+  const [open, setOpen] = useState(false)
+
+  const [ imgInfo, setImgInfo ] = useState("")
+
+
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = state.coverURL;
+    img.onload = () => {
+      setImgInfo("dimension : " + img.width + ", " + img.height)
+    }
+  }, [state.coverURL]) 
 
   return(
   <Card small className="mb-3">
@@ -47,6 +60,20 @@ const SidebarActions = ({ title }) => {
             </FormSelect>
           </InputGroup>
           </span>
+          <Tooltip
+                open={open && !changed}
+                target="#imgPreview"
+                toggle={() => setOpen(!open)}
+                >
+                {imgInfo}
+          </Tooltip>
+          <img src={state.coverURL} id="imgPreview" alt={state.title}  style={{ maxWidth: "100%" }} />
+          <InputGroup className="mb-3">
+          <InputGroupAddon type="prepend">
+            <InputGroupText>Cover URL</InputGroupText>
+          </InputGroupAddon>
+          <FormInput  size="md" placeholder="Image URL" value={state.coverURL} onChange={(e) => dispatch({payload : { coverURL : e.target.value}}) } />
+        </InputGroup> 
 
         </ListGroupItem>
         <ListGroupItem className="d-flex px-3 border-0">

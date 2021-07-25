@@ -27,6 +27,7 @@ export const ArticleProvider = ({ children, id }) => {
   const article = {
     title : "",
     slug: "",
+    coverURL : "",
     content: {},
     status:"draft",
     category : [],

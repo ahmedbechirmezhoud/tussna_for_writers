@@ -15,6 +15,23 @@ import firebase from 'firebase/app'
 import 'firebase/firestore';
 import { Link } from "react-router-dom";
 
+
+function Author({ author }){
+
+  return (
+    <div className="card-post__author d-flex">
+      <a
+        href="/"
+        className="card-post__author-avatar card-post__author-avatar--small"
+        style={{ backgroundImage: `url('${author.photoURL}')` }}
+      >
+        Written by {author.firstName + " " + author.lastName}
+      </a>
+    </div> 
+  )
+}
+
+
 export default function BlogPosts()
 {
 
@@ -22,6 +39,7 @@ export default function BlogPosts()
   
   const [authors, setAuthors ] = useState([])
 
+  const [authorsReady, setAuthorsReady ] = useState(false)
   const [data, setData] = useState([])
 
 
@@ -34,19 +52,18 @@ export default function BlogPosts()
      })
   },[])
 
+
   useEffect(() => {
     if(ready){
-      let aux = authors
       data.forEach((post, index) => {
         firebase.firestore().collection('authors').doc(post.authorID).get().then((doc) => {
-            aux[index] = doc.data()
+            setAuthors([...authors, doc.data()])
+            setAuthorsReady(true)
+          })
         })
-      })
-      setAuthors(aux)
     }
   }, [ready])
 
-  console.log(authors, data)
 
   return (
     <Container fluid className="main-content-container px-4">
@@ -57,12 +74,12 @@ export default function BlogPosts()
 
       {/* First Row of Posts */}
       <Row>
-        { ready && data.map((post, idx) => (
+        { ready && authorsReady && data.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1">
               <div
                 className="card-post__image"
-                style={{ backgroundImage: `url(${post.backgroundImage})` }}
+                style={{ backgroundImage: `url(${post.coverURL})` }}
               >
                 <Badge
                   pill
@@ -70,24 +87,25 @@ export default function BlogPosts()
                 >
                   {post.category[0]}
                 </Badge>
-                { console.log(authors[idx]) && (<div className="card-post__author d-flex">
+               {authors && <div className="card-post__author d-flex">
                   <a
                     href="/"
                     className="card-post__author-avatar card-post__author-avatar--small"
                     style={{ backgroundImage: `url('${authors[idx].photoURL}')` }}
                   >
-                    Written by {authors[idx].firstName + " " + authors[idx].lastName}
                   </a>
-                </div>)}
+                </div> }
               </div>
-              <CardBody>
+              <CardBody  >
+                <div  dir="rtl" lang="ar" >
                 <h5 className="card-title">
                   <Link to={"/article/" + post.id} className="text-fiord-blue">
                     {post.title}
-                  </Link>
+                  </Link> 
                 </h5>
-                <p className="card-text d-inline-block mb-3" maxLength="100" >dsf...</p>
-                <span className="text-muted">5  </span>
+                <p className="card-text d-inline-block mb-3" style={{ textAlign : "right" }} >{ post.content.blocks[0].data.text.substring(0, 100) }...</p>
+                </div>
+                <span className="text-muted"> {new Date(post.created_on.toDate()).toDateString()} </span>
               </CardBody>
             </Card>
           </Col>

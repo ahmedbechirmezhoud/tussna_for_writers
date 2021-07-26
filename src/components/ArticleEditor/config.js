@@ -3,7 +3,6 @@ import Table from '@editorjs/table'
 import List from '@editorjs/list'
 import CodeTool from '@editorjs/code'
 import LinkTool from '@editorjs/link'
-import Image from '@editorjs/image'
 import Raw from '@editorjs/raw'
 import Header from '@editorjs/header'
 import Quote from '@editorjs/quote'
@@ -13,6 +12,7 @@ import InlineCode from '@editorjs/inline-code'
 import SimpleImage from 'simple-image-editorjs'
 import AlignmentBlockTune from "editorjs-text-alignment-blocktune"
 import Paragraph from '@editorjs/paragraph'
+import CodeBox from '@bomdi/codebox';
 
 /**
  * Editor JS tools specified for article writing 
@@ -47,6 +47,14 @@ export const EDITOR_JS_TOOLS =
     embed: Embed,
     table: Table,
     raw: Raw,
+    codeBox: {
+        class: CodeBox,
+        config: {
+          themeURL: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css', // Optional
+          themeName: 'atom-one-dark', // Optional
+          useDefaultTheme: 'dark' // Optional. This also determines the background color of the language select drop-down
+        }
+    },
     defaultTune: {
         class:AlignmentBlockTune,
         config:{

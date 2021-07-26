@@ -50,6 +50,7 @@ return(
     </Row>
     <Row>
     <Card  style={{  width : "100%"}}>
+      <div dir="rtl" lang="ar"  > 
       <EditorJs
         onChange={() => setChanged(true)}
         enableReInitialize
@@ -59,6 +60,7 @@ return(
           checklist: {
             class: Checklist,
             inlineToolbar: true,
+            tunes : ['defaultTune']
           },
           defaultTune: {
             class:AlignmentBlockTune,
@@ -74,33 +76,7 @@ return(
         }}
         data={data}
       />
-      <Tooltip
-                open={open && !changed}
-                target="#TooltipExample"
-                toggle={() => setOpen(!open)}
-                >
-                Article is saved correctly, nothing to add 
-                and previous state was overwritten nothing to restore
-            </Tooltip>
-
-
-        <div style={{ right: 0, position: 'relative', transform:" translate(-10px, -10px)" }} id="TooltipExample" >
-            <Button  outline onClick={(e) => {
-                e.preventDefault()
-                editorInstance && editorInstance.render(data)
-                setChanged(false)
-                
-            } } theme="danger" disabled={!changed}>REDO</Button>
-            <Button outline onClick={(e) => {
-                e.preventDefault()
-                editorInstance && editorInstance.saver.save().then((value) =>{
-                console.log(value)
-                setData(value)
-                setChanged(false)
-                })
-                
-            } } theme="primary" disabled={!changed}>SAVE</Button>
-            </div>
+      </div>
       </Card>
     </Row>
     

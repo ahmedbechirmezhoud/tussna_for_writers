@@ -39,17 +39,8 @@ function UserActions(){
         <span className="d-none d-md-inline-block">{user.displayName}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={visible}>
-        <DropdownItem to="user-profile">
-          <i className="material-icons">&#xE7FD;</i> Profile
-        </DropdownItem>
-        <DropdownItem to="edit-user-profile">
+        <DropdownItem href="/profile" to="edit-user-profile">
           <i className="material-icons">&#xE8B8;</i> Edit Profile
-        </DropdownItem>
-        <DropdownItem to="file-manager-list">
-          <i className="material-icons">&#xE2C7;</i> Files
-        </DropdownItem>
-        <DropdownItem to="transaction-history">
-          <i className="material-icons">&#xE896;</i> Transactions
         </DropdownItem>
         <DropdownItem divider />
         <DropdownItem className="text-danger" onClick={() => {

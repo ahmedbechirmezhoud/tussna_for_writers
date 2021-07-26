@@ -24,6 +24,7 @@ export default class Notifications extends React.Component {
         <NavLink
           className="nav-link-icon text-center"
           onClick={this.toggleNotifications}
+          disabled={true}
         >
           <div className="nav-link-icon__wrapper">
             <i className="material-icons">&#xE7F4;</i>

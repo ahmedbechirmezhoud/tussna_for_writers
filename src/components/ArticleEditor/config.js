@@ -33,7 +33,12 @@ export const EDITOR_JS_TOOLS =
         inlineToolbar: true,
         tunes: ['defaultTune'],
     },
-    list: List,
+    list: {
+        class: List,
+        inlineToolbar: true,
+        tunes: ['defaultTune'],
+    }
+    ,
     quote: {
         class : Quote,
         tunes:['defaultTune'],
@@ -49,6 +54,7 @@ export const EDITOR_JS_TOOLS =
     raw: Raw,
     codeBox: {
         class: CodeBox,
+        tunes:['defaultTune'],
         config: {
           themeURL: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css', // Optional
           themeName: 'atom-one-dark', // Optional
@@ -62,7 +68,8 @@ export const EDITOR_JS_TOOLS =
           blocks: {
             header: 'center',
             quote : "center",
-            list: 'right'
+            list: 'right',
+            codeBox : 'left'
           }
         }
     },

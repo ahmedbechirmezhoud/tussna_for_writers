@@ -8,39 +8,28 @@ import Checklist from '@editorjs/checklist'
 
 import { EDITOR_JS_TOOLS } from "../components/ArticleEditor/config";
 
+
+import { loadState, saveState } from "../Contexts/localStorage";
+
+import defaultWorkspace from "../data/default-workspace";
+
 const BlogOverview = () => {
   const [data, setData] = useState({})
   const [changed, setChanged] = useState(false)
-  const [editorInstance, setEditorInstance] = useState();
+  const [editorInstance, setEditorInstance] = useState(null);
   const [open, setOpen] = useState(false)
 
   useEffect(() =>{
-     setData({
-      "time" : 1627040466105,
-      "blocks" : [
-          {
-              "id" : "eXkk-a12o0",
-              "type" : "header",
-              "data" : {
-                  "text" : "WELCOME TO TUSSNA FOR WRITERS",
-                  "level" : 2
-              }
-          },
-          {
-              "id" : "2AlEmxES-Q",
-              "type" : "paragraph",
-              "data" : {
-                  "text" : "YOU ARE A WRITER YOU ARE RESPONSIBLE FOR WHAT YOU WRITE <br>"
-              }
-          }
-      ],
-      "version" : "2.22.0"
-  })
-  }, [])
+      setData(loadState('workspace') || defaultWorkspace )
+     editorInstance && editorInstance.isReady.then(() => {
+      editorInstance.render(data)
+     })
+  }, [editorInstance])
 
   useEffect(() => {
-      setOpen(!changed)
+    setOpen(!changed)
   }, [changed])
+
 
 return(
   <Container fluid className="main-content-container px-4">
@@ -52,8 +41,7 @@ return(
     <Card  style={{  width : "100%"}}>
       <div dir="rtl" lang="ar"  > 
       <EditorJs
-        onChange={() => setChanged(true)}
-        enableReInitialize
+        onChange={(e) => setChanged(true)}
         instanceRef={instance =>  setEditorInstance(instance)}
         tools={{
           ...EDITOR_JS_TOOLS,
@@ -78,6 +66,21 @@ return(
       />
       </div>
       </Card>
+      <div className=" my-5 mr-2 ml-auto" onKeyDown={(e) => alert(e.code) }>
+        <Tooltip
+         open={open && !changed}
+         target="#TooltipExample"
+         toggle={() => setOpen(!open)}
+        >
+            Workspace Saved on your local browser storage 
+        </Tooltip>
+        <Button disabled={!changed} id="TooltipExample" onClick={() => {
+          editorInstance && editorInstance.save().then((value) =>{
+            saveState('workspace', value)
+            setChanged(false)
+          })
+        }} > SAVE </Button>
+      </div>
     </Row>
     
   </Container>

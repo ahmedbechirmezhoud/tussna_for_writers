@@ -16,22 +16,6 @@ import 'firebase/firestore';
 import { Link } from "react-router-dom";
 
 
-function Author({ author }){
-
-  return (
-    <div className="card-post__author d-flex">
-      <a
-        href="/"
-        className="card-post__author-avatar card-post__author-avatar--small"
-        style={{ backgroundImage: `url('${author.photoURL}')` }}
-      >
-        Written by {author.firstName + " " + author.lastName}
-      </a>
-    </div> 
-  )
-}
-
-
 export default function BlogPosts()
 {
 

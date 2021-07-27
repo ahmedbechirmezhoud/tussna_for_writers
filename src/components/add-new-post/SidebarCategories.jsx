@@ -20,7 +20,7 @@ import { ArticleContext } from '../../Contexts/articleContext';
 const SidebarCategories = ({ title }) => 
 {
 
-  const {state, dispatch, loading } = useContext(ArticleContext)
+  const {state, dispatch } = useContext(ArticleContext)
  
 
   const [newCategory, setNewCategory] = useState("")

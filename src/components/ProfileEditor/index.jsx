@@ -13,7 +13,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup'
 
 
-const ProfileEditor = ({ handleSubmit, initialValues, SubmitButton, SecondButtonTo, SecondButton, required }) => {
+const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, SecondButtonTo, SecondButton }) => {
 
     const [alert, setAlert] = useState()
 
@@ -23,7 +23,7 @@ const ProfileEditor = ({ handleSubmit, initialValues, SubmitButton, SecondButton
     }, [alert])
 
 
-    const [schema, setSchema] = useState({
+    const schema = ( Pschema || {
         firstName: Yup.string()
           .min(2, 'Too Short!')
           .max(50, 'Too Long!'),
@@ -53,13 +53,6 @@ const ProfileEditor = ({ handleSubmit, initialValues, SubmitButton, SecondButton
      
       })
     
-    useEffect(() => {
-        if(required){
-            let aux = schema
-            Object.keys(aux).forEach((key) => aux[key] =  aux[key].required("required") )
-            setSchema(aux)
-        }
-    }, [required])
 
     const SignupSchema = Yup.object().shape(schema);
 

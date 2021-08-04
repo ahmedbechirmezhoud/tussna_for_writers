@@ -172,6 +172,7 @@ const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, Sec
                 invalid={Boolean(errors.description)} 
                 valid={touched.description && !errors.description} 
                 name="description"
+                placeholder="Bio, experiences, motivation..."
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.description}

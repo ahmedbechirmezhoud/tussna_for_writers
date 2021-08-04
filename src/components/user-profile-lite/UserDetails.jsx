@@ -6,8 +6,7 @@ import {
   ListGroup,
   ListGroupItem,
   FormInput,
-  InputGroup,
-  InputGroupAddon
+  InputGroup
 } from "shards-react";
 
 import { InfoContext } from "../../Contexts/InfoContext";
@@ -31,6 +30,7 @@ const UserDetails = ({ ready, authorData, user }) => {
 
   const Viewer = useRef(null) //Reference to the img DOM object to Preview Uploaded Image
 
+  const [imageLink, setImageLink] = useState("")
 
   const handleChange = (event) => {
 
@@ -47,12 +47,16 @@ const UserDetails = ({ ready, authorData, user }) => {
   const [showPhotoUpdate, setShowPhotoUpdate] = useState(false) //toggle impage upload/update section
 
 
+  const updatePhotoURL = (URL) => {
+    user.updateProfile({ photoURL : URL })
+    firebase.firestore().collection('authors').doc(user.uid).update({ photoURL : URL })
+      .then(() => dispatchInfo({ payload : { message : { message : "Image added Successfully", type:"success" } } })  )
+      .catch((e) => dispatchInfo({payload : {error : e}}))
+  }
+
   const upload = (file) => {
       ImageRef.put(file).then(() =>{
-        user.updateProfile({ photoURL : value })
-        firebase.firestore().collection('authors').doc(user.uid).update({ photoURL : value })
-          .then(() => dispatchInfo({ payload : { message : { message : "Image added Successfully", type:"success" } } })  )
-          .catch((e) => dispatchInfo({payload : {error : e}}))
+        updatePhotoURL(value)
       }).catch((e) => dispatchInfo({payload : {error : e}}))
   }
 
@@ -82,7 +86,7 @@ const UserDetails = ({ ready, authorData, user }) => {
                 Upload From local
               </strong>
               <div className="custom-file mb-3">
-                <input type="file" onChange={handleChange} className="custom-file-input" id="customFile2" />
+                <input type="file" onChange={handleChange} className="custom-file-input" id="customFile2" disabled={imageLink !== ""} />
                 <label className="custom-file-label" htmlFor="customFile2">
                   { (file && file.name) || "Choose file..."}
                 </label>
@@ -91,12 +95,19 @@ const UserDetails = ({ ready, authorData, user }) => {
                 or<br />
               </strong>
           <InputGroup seamless style={{width : "80%"}} className="mb-3">
-            <FormInput placeholder="Link for a photo form the web" />
-            <InputGroupAddon type="append">
-              <Button theme="white">Preview</Button>
-            </InputGroupAddon>
+            <FormInput placeholder="Link for a photo form the web" value={imageLink} onChange={(e) =>
+               {
+                  setImageLink(e.target.value)
+                  Viewer.current.src = e.target.value
+              }
+              } /> 
           </InputGroup>
-          <Button theme="danger" onClick={() => upload(file)}>Upload & Update Profile</Button>
+          <Button theme="danger" onClick={() => {
+            if(imageLink !== "")
+              upload(file)
+            else
+              updatePhotoURL(imageLink)
+          }}>Upload & Update Profile</Button>
           </ListGroupItem>
         </ListGroup>)}
       <ListGroup flush>

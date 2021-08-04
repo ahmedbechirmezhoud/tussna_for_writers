@@ -32,7 +32,7 @@ const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, Sec
           .min(2, 'Too Short!')  
           .max(50, 'Too Long!'),   
 
-        profession: Yup.string()  
+        occupation: Yup.string()  
           .min(2, 'Too Short!')  
           .max(50, 'Too Long!'),   
         
@@ -58,7 +58,7 @@ const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, Sec
 
     return (       
     <Formik
-    initialValues={{ firstName : "", lastName : "", profession :"", email : "", password :"", Cpassword: "", description : "", ...initialValues}}
+    initialValues={{ firstName : "", lastName : "", occupation :"", email : "", password :"", Cpassword: "", description : "", ...initialValues}}
     setValues={() => initialValues}
     validationSchema={SignupSchema}
     onSubmit={handleSubmit}
@@ -97,19 +97,19 @@ const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, Sec
             </Col>
         </Row>
         <Row form>
-            {/* Profession */}
+            {/* occupation */}
             <Col md="6" className="form-group">
-            <label htmlFor="feProfession">Profession</label>
+            <label htmlFor="feOccupation">Occupation</label>
             <FormInput
-                invalid={Boolean(errors.profession)} 
-                valid={touched.profession && !errors.profession} 
+                invalid={Boolean(errors.occupation)} 
+                valid={touched.occupation && !errors.occupation} 
                 type="text"
-                name="profession"
+                name="occupation"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="Profession"
-                value={values.profession}
-                id="feProfession"
+                placeholder="occupation"
+                value={values.occupation}
+                id="feOccupation"
             />
             </Col>
             {/* Email */}

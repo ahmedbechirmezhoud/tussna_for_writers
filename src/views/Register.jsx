@@ -40,7 +40,7 @@ const Register = () => {
             firebase.firestore().collection('authors').doc(userCredential.user.uid).set({
                 'firstName' : values.firstName,
                 'lastName' : values.lastName,
-                'profession' : values.profession,
+                'occupation' : values.occupation,
                 'description' : values.description
             }).then(() => {
               dispatchInfo({ payload : { message : { message : "Profile created welcome, " + values.firstName, type :"success" }} })
@@ -64,7 +64,7 @@ const Register = () => {
           .max(50, 'Too Long!')
           .required("required"), 
 
-        profession: Yup.string()  
+        occupation: Yup.string()  
           .min(2, 'Too Short!')  
           .max(50, 'Too Long!')
           .required("required"),  

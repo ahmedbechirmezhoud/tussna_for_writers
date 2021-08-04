@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import {
   Card,
@@ -8,9 +8,13 @@ import {
 
 import InputTag from "./InputTag";
 
+import { ArticleContext } from '../../Contexts/articleContext';
+
+
 const SidebarTags = ({ title }) => 
 {
 
+  const { state,  dispatch } = useContext(ArticleContext)
 
 
 return(
@@ -19,7 +23,7 @@ return(
       <h6 className="m-0">{title}</h6>
     </CardHeader>
     <CardBody className="p-0">
-      <InputTag />
+      <InputTag tags={state.tags} rtl  handleChange={(tags => dispatch({ payload : { tags : tags } }))} />
     </CardBody>
   </Card>
 );}

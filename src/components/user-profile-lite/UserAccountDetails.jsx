@@ -26,10 +26,10 @@ const UserAccountDetails = ({ title, authorData, user, ready }) => {
       .catch((e) => dispatchInfo({ payload : { message : { message : e.message , type:"danger"} } }) )
     }
 
-    let { firstName, lastName, occupation, description } = values;
-    const NewData = { firstName, lastName, occupation, description }
-    let { PfirstName, PlastName, POccupation, Pdescription } = authorData;
-    const PrevData = { PfirstName, PlastName, POccupation, Pdescription }
+    let { firstName, lastName, occupation, description, areasOfInterest } = values;
+    const NewData = { firstName, lastName, occupation, description, areasOfInterest }
+    let { PfirstName, PlastName, Poccupation, Pdescription, PareasOfInterest } = authorData;
+    const PrevData = { PfirstName, PlastName, Poccupation, Pdescription, PareasOfInterest }
     if(NewData !== PrevData) {
       firebase.firestore().collection('authors').doc(String(user.uid)).update({...NewData})
         .then(() =>dispatchInfo({ payload : { message : { message : "Profile Updated correctly" , type:"success"} } }))

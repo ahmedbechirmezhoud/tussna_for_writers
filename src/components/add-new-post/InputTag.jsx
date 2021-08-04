@@ -1,34 +1,31 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import './InputTag.css'
 
-import { ArticleContext } from '../../Contexts/articleContext';
 
 
 
-
-const InputTag = () => {
-  const { state, dispatch } = useContext(ArticleContext)
+const InputTag = ({ tags, handleChange, rtl, invalid, valid, ...props }) => {
 
   
   const [focused, setFocused] = useState(false)
 
   const removeTag = (i) => {
-    const newTags = [ ...state.tags ];
+    const newTags = [ ...tags ];
     newTags.splice(i, 1);
-    dispatch({ payload : { tags : newTags } })
+    handleChange(newTags)
   }
 
 
   const inputKeyDown = (e) => {
     const val = e.target.value;
     if (e.key === 'Enter' && val) {
-      if (state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+      if (tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
         return;
       }
-      dispatch({ payload : { tags : [...state.tags, val] } })
+      handleChange([...tags, val])
       e.target.value = ""
     } else if (e.key === 'Backspace' && !val) {
-      removeTag(state.tags.length - 1);
+      removeTag(tags.length - 1);
     }
   }
 
@@ -37,15 +34,19 @@ const InputTag = () => {
 
 
   return (
-    <div className={focused ? "input-tag focused" : "input-tag"} dir="rtl" lang="ar" >
+    <div 
+      className={focused ? "input-tag focused" : "input-tag"}
+      dir={rtl ? "rtl" : ""} lang={rtl ? "ar" : "en"}
+      style={{ borderColor : (invalid ? "var(--danger)" : (valid && "var(--success)")) }}
+      >
       <ul className="input-tag__tags">
-        { state.tags.map((tag, i) => (
+        { tags.map((tag, i) => (
           <li key={tag}>
             {tag}
             <button type="button" onClick={() => { removeTag(i); }}>+</button>
           </li>
         ))}
-        <li className="input-tag__tags__input"><input onBlur={() => setFocused(false)} onFocus={() => setFocused(true)} type="text" placeholder="أييييييييي" onKeyDown={inputKeyDown}  /></li>
+        <li className="input-tag__tags__input"><input {...props} onBlur={() => setFocused(false)} onFocus={() => setFocused(true)} type="text" onKeyDown={inputKeyDown}  /></li>
       </ul>
     </div>
   );

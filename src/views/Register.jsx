@@ -41,7 +41,8 @@ const Register = () => {
                 'firstName' : values.firstName,
                 'lastName' : values.lastName,
                 'occupation' : values.occupation,
-                'description' : values.description
+                'description' : values.description,
+                'areasOfInterest' : values.areasOfInterest
             }).then(() => {
               dispatchInfo({ payload : { message : { message : "Profile created welcome, " + values.firstName, type :"success" }} })
             })
@@ -52,6 +53,7 @@ const Register = () => {
           dispatchInfo({ payload : { message : { message : e.message, code : e.code, type :"danger" }} })
         })
     }
+
 
     const schema = {
         firstName: Yup.string()
@@ -67,7 +69,11 @@ const Register = () => {
         occupation: Yup.string()  
           .min(2, 'Too Short!')  
           .max(50, 'Too Long!')
-          .required("required"),  
+          .required("required"),
+        
+        areasOfInterest: Yup.array()
+          .min(1, "one area minimum")
+          .required("required"),
         
         description: Yup.string()  
           .min(25, 'Too Short!')  
@@ -106,7 +112,7 @@ const Register = () => {
                         <ListGroupItem className="p-3">
                             <Row>
                             <Col>
-                                <ProfileEditor  Pschema={schema} handleSubmit={handleSubmit} SubmitButton="Register" SecondButton="Login" SecondButtonTo="/login"  required={true}/>
+                                <ProfileEditor  Pschema={schema} handleSubmit={handleSubmit} SubmitButton="Register" SecondButton="Login" SecondButtonTo="/login"/>
                             </Col>
                             </Row>
                         </ListGroupItem>

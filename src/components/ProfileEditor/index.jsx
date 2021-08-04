@@ -11,6 +11,7 @@ import {
 
 import { Formik } from 'formik';
 import * as Yup from 'yup'
+import InputTag from '../add-new-post/InputTag';
 
 
 const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, SecondButtonTo, SecondButton }) => {
@@ -40,6 +41,10 @@ const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, Sec
           .min(25, 'Too Short!')  
           .max(500, 'Too Long!'),   
 
+        areasOfInterest: Yup.string()
+          .min(2, 'Too Short!')  
+          .max(50, 'Too Long!'),
+
         password : Yup.string()
           .min(6, 'Too Short!')  
           .max(16, 'Too Long!'),   
@@ -58,12 +63,12 @@ const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, Sec
 
     return (       
     <Formik
-    initialValues={{ firstName : "", lastName : "", occupation :"", email : "", password :"", Cpassword: "", description : "", ...initialValues}}
+    initialValues={{ firstName : "", lastName : "", occupation :"", email : "", areasOfInterest : [], password :"", Cpassword: "", description : "", ...initialValues}}
     setValues={() => initialValues}
     validationSchema={SignupSchema}
     onSubmit={handleSubmit}
     >
-            {({values,errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (<Form>
+            {({values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setValues}) => (<Form>
         <Row form>
             {/* First Name */}
             <Col md="6" className="form-group">
@@ -129,6 +134,24 @@ const ProfileEditor = ({ Pschema, handleSubmit, initialValues, SubmitButton, Sec
             />
             </Col>
             
+        </Row>
+        <Row form>
+            {/* areasOfInterest */}
+            <Col  className="form-group">
+            <label htmlFor="feAreasOfInterest">Areas of interest</label>
+            <InputTag
+                invalid={Boolean(errors.areasOfInterest)} 
+                valid={touched.areasOfInterest && !errors.areasOfInterest} 
+                type="text"
+                name="areasOfInterest"
+                onBlur={handleBlur}
+                placeholder="Areas of interest"
+                id="feAreasOfInterest"
+                tags={values.areasOfInterest} 
+                handleChange={(tags) => setValues({areasOfInterest : tags})}
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                 />
+            </Col>         
         </Row>
         <Row form>
             {/* Password */}

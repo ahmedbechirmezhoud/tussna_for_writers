@@ -36,6 +36,7 @@ const Register = () => {
     const handleSubmit = (values, { setSubmitting })  => {
         firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
         .then((userCredential) => {
+            userCredential.user.sendEmailVerification().then(() => dispatchInfo({ payload : { message : { message : "a Verification mail was sent to your email address please verify", type : "success" } } }))
             userCredential.user.updateProfile({ displayName : values.firstName + " " + values.lastName })
             firebase.firestore().collection('authors').doc(userCredential.user.uid).set({
                 'firstName' : values.firstName,

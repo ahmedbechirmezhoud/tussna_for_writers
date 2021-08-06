@@ -9,12 +9,11 @@ const Errors = ({ error }) => (
         <h2>{error.code}</h2>
         <h3>{error.name}</h3>
         <p>{error.message}</p>
-        <Button pill>&larr; Go Back</Button>
+        <a href="/"><Button pill >&larr; Go Back</Button></a>
         </>
       ) : <h2>NO ERROR</h2>}
       </div>
     </div>
   </Container>
 );
-
 export default Errors;

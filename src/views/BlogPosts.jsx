@@ -1,5 +1,4 @@
-
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Container,
   Row,
@@ -14,39 +13,29 @@ import PageTitle from "../components/common/PageTitle";
 import firebase from 'firebase/app'
 import 'firebase/firestore';
 import { Link } from "react-router-dom";
-
+import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
+import { InfoContext } from '../Contexts/InfoContext'
 
 export default function BlogPosts()
-{
+{  
 
-  const [ready, setReady ] = useState(false)
+  const { dispatch } = useContext(InfoContext)
   
-  const [authors, setAuthors ] = useState([])
+  const query = firebase.firestore().collection('articles').limit(2).orderBy('created_on', 'desc')
 
-  const [authorsReady, setAuthorsReady ] = useState(false)
-  const [data, setData] = useState([])
-
-
-  useLayoutEffect(() =>  {
-    firebase.firestore().collection('articles').get().then((docs) => { 
-      docs.forEach((doc) => {
-       setData([...data, {...doc.data(), id : doc.id}])
-       setReady(true)
-      })
-     })
-  },[])
-
+  const [articles, loading, error] = useCollectionDataOnce(query, {
+    idField : "id",
+    transform : (val) => {
+      /*firebase.firestore().collection('authors').doc(val.authorID).get().then((author) => {
+        val["author"] = author.data()
+      })*/
+      return val
+    }
+  })
 
   useEffect(() => {
-    if(ready){
-      data.forEach((post, index) => {
-        firebase.firestore().collection('authors').doc(post.authorID).get().then((doc) => {
-            setAuthors([...authors, doc.data()])
-            setAuthorsReady(true)
-          })
-        })
-    }
-  }, [ready])
+    error && dispatch({ payload : { error : { ...error } } })
+  }, [error])
 
 
   return (
@@ -58,7 +47,7 @@ export default function BlogPosts()
 
       {/* First Row of Posts */}
       <Row>
-        { ready && authorsReady && data.map((post, idx) => (
+        { !loading && articles.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1">
               <div
@@ -71,14 +60,14 @@ export default function BlogPosts()
                 >
                   {post.category[0]}
                 </Badge>
-               {authors && <div className="card-post__author d-flex">
+                <div className="card-post__author d-flex">
                   <a
-                    href="/"
+                    href={"/writer/" +  post.authorID }
                     className="card-post__author-avatar card-post__author-avatar--small"
-                    style={{ backgroundImage: `url('${authors[idx].photoURL}')` }}
+                    style={post.author && { backgroundImage: `url('${post.author.photoURL}')` }}
                   >
                   </a>
-                </div> }
+                </div>
               </div>
               <CardBody  >
                 <div  dir="rtl" lang="ar" >

@@ -11,7 +11,7 @@ import 'firebase/auth'
 import { useAuthState } from "react-firebase-hooks/auth";
 
 
-const UserProfileLite = () => {
+const EditUserProfile = () => {
 
   const [ authorData, setAuthorData ] = useState({}) 
 
@@ -52,4 +52,4 @@ const UserProfileLite = () => {
     </Container>
 );
 }
-export default UserProfileLite;
+export default EditUserProfile;

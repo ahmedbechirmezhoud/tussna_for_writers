@@ -11,7 +11,7 @@ import { DefaultLayout } from "./layouts";
 
 // Route Views
 import BlogOverview from "./views/BlogOverview";
-import UserProfileLite from "./views/UserProfileLite";
+import EditUserProfile from "./views/EditUserProfile";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import BlogPosts from "./views/BlogPosts";
@@ -26,6 +26,7 @@ import Register from "./views/Register";
 import Loading from "./components/Loading";
 import { InfoContext } from "./Contexts/InfoContext";
 import {  Alert } from "shards-react";
+import UserProfile from "./views/UserProfile";
  
 
 
@@ -103,8 +104,30 @@ const App = () => {
             exact
             component={props => {
               return (
+                <Redirect to={"/writer/" + user.uid } />
+              );
+            }}
+          />
+          <PrivateRoute
+            user={user}
+            path="/settings"
+            exact
+            component={props => {
+              return (
                 <DefaultLayout {...props}>
-                  <UserProfileLite {...props} />
+                  <EditUserProfile {...props} />
+                </DefaultLayout>
+              );
+            }}
+          />
+          <PrivateRoute
+            user={user}
+            path="/writer/:id"
+            exact
+            component={props => {
+              return (
+                <DefaultLayout {...props}>
+                  <UserProfile {...props} />
                 </DefaultLayout>
               );
             }}

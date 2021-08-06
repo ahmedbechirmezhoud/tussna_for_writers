@@ -29,13 +29,6 @@ const Login = () => {
 
     const history = useHistory()
 
-    const handleClick = () => {
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-            alert(result.user.displayName,  "loged in" )
-            history.push('/')
-        });
-    }
-
     const [alert, setAlert] = useState()
 
     const handleSubmit = (values, { setSubmitting }) => {
@@ -130,7 +123,6 @@ const Login = () => {
                             Register
                         </Button>
                     </Link>
-                <Button block onClick={handleClick} style={{marginTop : "20px", backgroundColor : "#4267B2", fontSize : "14px"}} ><i className="material-icons" style={{padding : '5px'}}>facebook</i>LOGIN WITH FACEBOOK</Button>    
                         </form>)}
                 </Formik>
             </Card>
